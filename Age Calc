@@ -1,0 +1,80 @@
+# ...existing code...
+import tkinter as tk
+from datetime import date
+import calendar
+
+def calculate_age():
+    try:
+        day = int(day_entry.get())
+        month = int(month_entry.get())
+        year = int(year_entry.get())
+        today = date.today()
+        birth = date(year, month, day)
+        if birth > today:
+            result_label.config(text="Date of birth cannot be in the future.")
+            return
+
+        years = today.year - birth.year
+        months = today.month - birth.month
+        days = today.day - birth.day
+
+        if days < 0:
+            # borrow days from previous month
+            prev_month = today.month - 1
+            prev_year = today.year
+            if prev_month == 0:
+                prev_month = 12
+                prev_year -= 1
+            days_in_prev = calendar.monthrange(prev_year, prev_month)[1]
+            days += days_in_prev
+            months -= 1
+
+        if months < 0:
+            months += 12
+            years -= 1
+
+        result_label.config(text=f"Your age: {years} years, {months} months, {days} days.")
+    except ValueError:
+        result_label.config(text="Please enter valid integers for day, month, year.")
+    except Exception as e:
+        result_label.config(text="Invalid date. Check day/month values.")
+
+def clear():
+    day_entry.delete(0, tk.END)
+    month_entry.delete(0, tk.END)
+    year_entry.delete(0, tk.END)
+    result_label.config(text="")
+
+root = tk.Tk()
+root.title("Age Calculator")
+root.geometry("250x230")
+
+main_font = ("Segoe UI", 10)
+
+frame = tk.Frame(root, padx=12, pady=12)
+frame.pack(fill="both", expand=True)
+
+tk.Label(frame, text="   Age Calculator", font=(14)).grid(columnspan=2, pady=(0,10))
+
+tk.Label(frame, text="Day:  ", font=main_font).grid(row=1, column=0, padx=(0,6))
+day_entry = tk.Entry(frame, width=12, font=main_font)
+day_entry.grid(row=1, column=1)
+
+tk.Label(frame, text="Month:    ", font=main_font).grid(row=2, column=0, padx=(0,6), pady=(6,0))
+month_entry = tk.Entry(frame, width=12, font=main_font)
+month_entry.grid(row=2, column=1, pady=(6,0))
+
+tk.Label(frame, text="Year:     ", font=main_font).grid(row=3, column=0, padx=(0,6), pady=(6,0))
+year_entry = tk.Entry(frame, width=12, font=main_font)
+year_entry.grid(row=3, column=1, pady=(6,0))
+
+btn_frame = tk.Frame(frame)
+btn_frame.grid(row=4, column=0, columnspan=2, pady=(12,0))
+tk.Button(btn_frame, text="Calculate Age", command=calculate_age, width=14).pack(side="left", padx=6)
+
+result_label = tk.Label(frame, text="", font=main_font, fg="#1a1a1a")
+result_label.grid(row=5, column=0, columnspan=2, pady=(12,0))
+
+root.bind("<Return>", lambda e: calculate_age())
+root.mainloop()
+# ...existing code...
