@@ -1,0 +1,41 @@
+import pygame
+
+pygame.init()
+W = 800
+H = 600
+S = pygame.display.set_mode((W, H))
+pygame.display.set_caption("2 Player Movement")
+R = (255,0,0)
+B = (0,0,255)
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(R)
+        self.rect = self.image.get_rect(center=(W//4, H//2))
+        self.dx, self.dy = 0, 0
+    def update(self):
+        self.rect.x = max(0, min(W-50, self.rect.x + self.dx))
+        self.rect.y = max(0, min(H-50, self.rect.y + self.dy))
+
+p = Player()
+s = pygame.sprite.Group(p)
+b = pygame.Rect(W*3//4, H//2, 50, 50)
+C = pygame.time.Clock()
+while True:
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            exit()
+        if e.type == pygame.KEYDOWN:
+            if e.key == pygame.K_LEFT: player.dx, player.dy = -5, 0
+            if e.key == pygame.K_RIGHT: player.dx, player.dy = 5, 0
+            if e.key == pygame.K_UP: player.dx, player.dy = 0, -5
+            if e.key == pygame.K_DOWN: player.dx, player.dy = 0, 5
+        if e.type == pygame.KEYUP: player.dx, player.dy = 0, 0
+    s.update()
+    S.fill((255,255,255))
+    s.draw(S)
+    pygame.draw.rect(S, B, b)
+    pygame.display.flip()
+    C.tick(60)
