@@ -1,0 +1,17 @@
+import tkinter as Tk
+from tkinter import *
+window = Tk()
+window.title("Event Handling")
+window.geometry('100x100')
+def key_press(event):
+    print("\nKey Pressed:", event.char)
+
+window.bind('<Key>', key_press)
+
+def handle_click(event):
+    print("\nButton Clicked!")
+
+btn = Button(window, text="Click Me!")
+btn.pack()
+btn.bind('<Button-1>', handle_click)
+window.mainloop()
