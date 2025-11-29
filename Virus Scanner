@@ -1,0 +1,11 @@
+import tkinter as tk
+from tkinter import messagebox
+root = tk.Tk()
+root.title("Virus Scanner")
+root.geometry("200x200")
+def msg():
+    messagebox.showwarning("Alert", "Virus Detected!")
+btn = tk.Button(root, text="Scan", command=msg)
+btn.place(x=70, y=80)
+btn.pack()
+root.mainloop()
