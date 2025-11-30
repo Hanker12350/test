@@ -1,0 +1,36 @@
+import tkinter as tk
+from tkinter import messagebox
+t = tk.Tk()
+t.title("Interest Calculator")
+t.geometry("300x250")
+def calc():
+    p = float(p_entry.get())
+    t = float(t_entry.get())
+    r = float(r_entry.get())
+    si = (p * t * r) / 100
+    ci = p * (pow((1 + r / 100), t)) - p
+    si_label.config(text=f"SI: ${si:.2f}")
+    ci_label.config(text=f"CI: ${ci:.2f}")
+
+tk.Label(t, text="Principal:").pack(pady=3)
+p_entry = tk.Entry(t, width=20)
+p_entry.pack(pady=3)
+
+tk.Label(t, text="Time (years):").pack(pady=3)
+t_entry = tk.Entry(t, width=20)
+t_entry.pack(pady=3)
+
+tk.Label(t, text="Rate (%):").pack(pady=3)
+r_entry = tk.Entry(t, width=20)
+r_entry.pack(pady=3)
+
+b = tk.Button(t, text="Calculate", command=calc)
+b.pack(pady=8)
+
+si_label = tk.Label(t, text="SI: $0.00")
+si_label.pack(pady=3)
+
+ci_label = tk.Label(t, text="CI: $0.00")
+ci_label.pack(pady=3)
+
+t.mainloop()
